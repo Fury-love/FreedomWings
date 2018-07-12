@@ -1,15 +1,26 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '@/components/Home'
 
-Vue.use(Router)
+import App from '../App.vue';
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home
-    }
-  ]
-})
+const home = () => import(/* webpackChunkName: "home" */'../page/home/home.vue');
+const profile = () => import(/* webpackChunkName: "profile" */ '../page/profile/profile.vue');
+const recharge = () => import(/* webpackChunkName: "recharge" */ '../page/profile/children/recharge.vue');
+
+export default [{
+    path: '/',
+    component: App,
+    children: [{
+        path: '',
+        redirect: '/home'
+    },{
+        path: '/home',
+        component: home
+    },{
+        path: '/profile',
+        component: profile,
+        children: [{
+            path: 'recharge',
+            component: recharge
+        }]
+    }]
+}]
+
